@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrandStudios.AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f1419;
+            --navy-light: #1a2028;
+            --orange: #e85d2d;
+            --cream: #fafaf8;
+            --warm-white: #ffffff;
+            --text: #2c3038;
+            --text-light: #5a6270;
+            --serif: 'Playfair Display', Georgia, serif;
+            --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: var(--sans); 
+            background: var(--cream); 
+            color: var(--text); 
+            line-height: 1.7; 
+            -webkit-font-smoothing: antialiased;
+            font-size: 17px;
+        }
+        
+        /* Slide Layout */
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 80px;
+            position: relative;
+        }
+        .slide-inner {
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 28px 80px;
+            background: rgba(250,250,248,0.9);
+            backdrop-filter: blur(20px);
+        }
+        .logo { 
+            font-family: var(--sans);
+            font-weight: 700; 
+            font-size: 1.1rem; 
+            color: var(--navy); 
+            letter-spacing: -0.03em; 
+        }
+        .logo span { color: var(--orange); }
+        
+        /* Footer */
+        .slide-footer {
+            position: absolute;
+            bottom: 40px;
+            left: 80px;
+            right: 80px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        /* Typography */
+        .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--orange);
+            margin-bottom: 24px;
+        }
+        
+        .display {
+            font-family: var(--serif);
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 400;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            color: var(--navy);
+        }
+        .display em { 
+            color: var(--orange); 
+            font-style: italic;
+        }
+        
+        .headline {
+            font-family: var(--serif);
+            font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+            font-weight: 400;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: var(--navy);
+        }
+        .headline em { 
+            color: var(--orange); 
+            font-style: italic; 
+        }
+        
+        .subhead {
+            font-family: var(--serif);
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            font-weight: 400;
+            line-height: 1.35;
+            color: var(--navy);
+        }
+        
+        .body-xl {
+            font-size: 1.35rem;
+            line-height: 1.7;
+            color: var(--text);
+        }
+        .body-lg {
+            font-size: 1.15rem;
+            line-height: 1.75;
+            color: var(--text);
+        }
+        .body-md {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-light);
+        }
+        
+        .statement {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-style: italic;
+            line-height: 1.5;
+            color: var(--text-light);
+            border-left: 3px solid var(--orange);
+            padding-left: 32px;
+            margin-top: 48px;
+        }
+        
+        /* Layout */
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+        }
+        .split-wide {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 100px;
+            align-items: start;
+        }
+        .center { text-align: center; }
+        .narrow { max-width: 800px; margin: 0 auto; }
+        
+        /* Cards */
+        .card-white {
+            background: var(--warm-white);
+            border-radius: 20px;
+            padding: 48px;
+            box-shadow: 0 4px 40px rgba(0,0,0,0.04);
+        }
+        .card-dark {
+            background: linear-gradient(160deg, var(--navy-light) 0%, var(--navy) 100%);
+            border-radius: 20px;
+            padding: 48px;
+            color: #fff;
+        }
+        
+        /* Five Column System */
+        .pillars {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 24px;
+            margin-top: 64px;
+        }
+        .pillar {
+            background: var(--warm-white);
+            border-radius: 16px;
+            padding: 36px 28px;
+            text-align: center;
+            box-shadow: 0 2px 24px rgba(0,0,0,0.03);
+            border-top: 4px solid transparent;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .pillar:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 48px rgba(0,0,0,0.08);
+        }
+        .pillar:nth-child(1) { border-top-color: #5b8fd9; }
+        .pillar:nth-child(2) { border-top-color: #6db86d; }
+        .pillar:nth-child(3) { border-top-color: #888; }
+        .pillar:nth-child(4) { border-top-color: #10b981; }
+        .pillar:nth-child(5) { border-top-color: #e07a5f; }
+        
+        .pillar-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 20px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .pillar:nth-child(1) .pillar-icon { background: rgba(91,143,217,0.1); }
+        .pillar:nth-child(2) .pillar-icon { background: rgba(109,184,109,0.1); }
+        .pillar:nth-child(3) .pillar-icon { background: rgba(136,136,136,0.1); }
+        .pillar:nth-child(4) .pillar-icon { background: rgba(16,185,129,0.1); }
+        .pillar:nth-child(5) .pillar-icon { background: rgba(224,122,95,0.1); }
+        
+        .pillar-title {
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+        .pillar:nth-child(1) .pillar-title { color: #5b8fd9; }
+        .pillar:nth-child(2) .pillar-title { color: #6db86d; }
+        .pillar:nth-child(3) .pillar-title { color: #666; }
+        .pillar:nth-child(4) .pillar-title { color: #10b981; }
+        .pillar:nth-child(5) .pillar-title { color: #e07a5f; }
+        
+        .pillar-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+        
+        /* Metrics */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            margin-top: 48px;
+        }
+        .metric {
+            text-align: center;
+            padding: 32px 20px;
+            background: var(--warm-white);
+            border-radius: 16px;
+        }
+        .metric-value {
+            font-family: var(--serif);
+            font-size: 3rem;
+            font-weight: 500;
+            color: var(--orange);
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        /* Tools Grid */
+        .tools-container {
+            background: var(--warm-white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 40px rgba(0,0,0,0.04);
+        }
+        .tools-header {
+            text-align: center;
+            padding: 24px;
+            border: 2px solid var(--orange);
+            border-radius: 14px;
+            margin-bottom: 28px;
+        }
+        .tools-header h3 {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--navy);
+        }
+        .tools-header p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .tool-box {
+            border-radius: 14px;
+            padding: 24px 20px;
+            text-align: center;
+        }
+        .tool-box h4 {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+        .tool-box p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .tool-orange { background: var(--orange); color: #fff; }
+        .tool-sand { background: #d4c4a8; color: var(--navy); }
+        .tool-sage { background: #b8c9a8; color: var(--navy); }
+        .tool-sky { background: #a8c8e0; color: var(--navy); }
+        .tool-lavender { background: #c4c8e4; color: var(--navy); }
+        .tool-neutral { background: #e8e6e2; color: var(--navy); }
+        
+        /* Fidelity Display */
+        .fidelity-card {
+            background: linear-gradient(160deg, #1a2028 0%, #0f1419 100%);
+            border-radius: 20px;
+            padding: 48px;
+            color: #fff;
+        }
+        .fidelity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .fidelity-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .fidelity-subtitle {
+            font-size: 0.85rem;
+            opacity: 0.5;
+            margin-top: 6px;
+        }
+        .fidelity-score {
+            font-family: var(--serif);
+            font-size: 3.5rem;
+            font-weight: 500;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+        .fidelity-row {
+            display: grid;
+            grid-template-columns: 160px 1fr 100px;
+            gap: 20px;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+        }
+        .fidelity-bar {
+            height: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .fidelity-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            border-radius: 5px;
+        }
+        .fidelity-fill.moderate { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .status { font-size: 0.8rem; font-weight: 600; text-align: right; }
+        .status-pass { color: #34d399; }
+        .status-warn { color: #fbbf24; }
+        .fidelity-result {
+            margin-top: 32px;
+            padding: 20px 28px;
+            background: rgba(16,185,129,0.15);
+            border: 1px solid rgba(16,185,129,0.3);
+            border-radius: 14px;
+            color: #34d399;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        
+        /* Bullet List */
+        .feature-list {
+            list-style: none;
+            margin-top: 40px;
+        }
+        .feature-list li {
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        .feature-list li:last-child { border-bottom: none; }
+        .feature-list li::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--orange);
+            border-radius: 50%;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+        
+        /* Rights Section */
+        .rights-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            margin-top: 48px;
+        }
+        .rights-item {
+            padding: 28px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+        .rights-highlight {
+            background: rgba(232,93,45,0.06);
+            border-radius: 16px;
+            padding: 36px;
+        }
+        .rights-highlight h4 {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--navy);
+        }
+        .rights-highlight li {
+            padding: 10px 0;
+            font-size: 1rem;
+        }
+        
+        /* CTA Box */
+        .cta-card {
+            background: var(--navy);
+            color: #fff;
+            padding: 48px 64px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 48px;
+        }
+        .cta-card p {
+            font-size: 1.35rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .pillars { grid-template-columns: repeat(3, 1fr); }
+            .metrics { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 1024px) {
+            .slide { padding: 80px 48px; }
+            nav { padding: 24px 48px; }
+            .split, .split-wide, .rights-grid { grid-template-columns: 1fr; gap: 48px; }
+            .slide-footer { left: 48px; right: 48px; }
+        }
+        @media (max-width: 768px) {
+            .slide { padding: 64px 28px; }
+            nav { padding: 20px 28px; }
+            .pillars { grid-template-columns: 1fr 1fr; }
+            .tools-grid { grid-template-columns: 1fr 1fr; }
+            .slide-footer { left: 28px; right: 28px; bottom: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <nav><div class="logo">BrandStudios<span>.AI</span></div></nav>
+
+    <!-- Slide 1: Title -->
+    <section class="slide">
+        <div class="slide-inner center">
+            <h1 class="display">Brand Orchestration Platform<br><em>with Human Intelligence</em></h1>
+            <div style="margin-top:100px">
+                <div class="logo" style="font-size:2.5rem">BrandStudios<span>.AI</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: The Truth -->
+    <section class="slide">
+        <div class="slide-inner">
+            <div class="split">
+                <div>
+                    <h2 class="headline"><em>The Truth</em></h2>
+                    <p class="body-xl" style="margin-top:40px">A brand is more than the assets it creates.</p>
+                    <p class="body-xl" style="margin-top:24px">It's the accumulation of experiences generated over time.</p>
+                    <p class="body-xl" style="margin-top:40px;font-weight:600;color:var(--navy)">BrandStudios.AI carries that experience forward across everything you make.</p>
+                </div>
+                <div></div>
+            </div>
+        </div>
+        <div class="slide-footer"><span class="logo">BrandStudios<span>.AI</span></span><span>2</span></div>
+    </section>
+
+    <!-- Slide 3: The Problem -->
+    <section class="slide">
+        <div class="slide-inner">
+            <div class="split">
+                <div>
+                    <h2 class="headline">Timelines Shrink.<br>Budgets Hold.<br><em>Expectations Rise.</em></h2>
+                    <p class="subhead" style="margin-top:40px">Everyone uses AI.<br>No one has AI that knows their brand or respects it.</p>
+                    <p class="body-lg" style="margin-top:32px;color:var(--text-light)">Creative teams must deliver across more channels with more precision — while keeping the brand intact. That requires a system that understands the brand as well as the people who built it.</p>
+                    <p class="statement">AI Accelerates Output But Has No Judgment</p>
+                </div>
+                <div></div>
+            </div>
+        </div>
+        <div class="slide-footer"><span class="logo">BrandStudios<span>.AI</span></span><span>3</span></div>
+    </section>
+
+    <!-- Slide 4: The Real Challenge -->
+    <section class="slide">
+        <div class="slide-inner narrow center">
+            <h2 class="headline"><em>The Real Challenge</em></h2>
+            <p class="body-xl" style="margin-top:48px">Creative teams do remarkable work.</p>
+            <p class="body-xl" style="margin-top:32px">The challenge is keeping the brand's accumulated experience consistently remembered — and applied across every piece of creative.</p>
+            <p class="statement" style="text-align:center;border:none;padding:0;margin-top:64px">AI accelerates creation. Without judgment, it breaks the thread that holds a brand together.</p>
+        </div>
+        <div class="slide-footer"><span class="logo">BrandStudios<span>.AI</span></span><span>4</span></div>
+    </section>
+
+
+
+    <!-- Slide 5: What Is BrandStudios.AI -->
+    <section class="slide">
+        <div class="slide-inner">
+            <div style="display:grid;grid-template-columns:1.1fr 0.9fr;gap:80px;align-items:center">
+                <div>
+                    <h2 class="headline" style="font-size:clamp(2.5rem,5vw,4rem)"><em>What Is BrandStudios.AI</em></h2>
+                    <p class="subhead" style="margin-top:40px;font-weight:500;color:var(--navy)">A Brand Orchestration Platform.</p>
+                    <p class="body-lg" style="margin-top:32px;line-height:1.8">It learns your brand's visual, verbal, and narrative patterns, remembers them, and applies that intelligence to every piece of creative your teams make.</p>
+                    
+                    <div style="display:flex;gap:24px;margin-top:48px">
+                        <div style="text-align:center;padding:24px 32px;background:var(--warm-white);border-radius:16px;box-shadow:0 2px 20px rgba(0,0,0,0.04)">
+                            <p style="font-family:var(--serif);font-size:1.75rem;font-weight:500;color:var(--orange)">Faster</p>
+                            <p style="font-size:0.85rem;color:var(--text-light);margin-top:4px">work moves</p>
+                        </div>
+                        <div style="text-align:center;padding:24px 32px;background:var(--warm-white);border-radius:16px;box-shadow:0 2px 20px rgba(0,0,0,0.04)">
+                            <p style="font-family:var(--serif);font-size:1.75rem;font-weight:500;color:var(--orange)">Consistent</p>
+                            <p style="font-size:0.85rem;color:var(--text-light);margin-top:4px">every time</p>
+                        </div>
+                        <div style="text-align:center;padding:24px 32px;background:var(--warm-white);border-radius:16px;box-shadow:0 2px 20px rgba(0,0,0,0.04)">
+                            <p style="font-family:var(--serif);font-size:1.75rem;font-weight:500;color:var(--orange)">Less Drift</p>
+                            <p style="font-size:0.85rem;color:var(--text-light);margin-top:4px">at scale</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-dark" style="padding:56px 48px">
+                    <div style="width:64px;height:64px;background:linear-gradient(135deg,var(--orange),#f59e0b);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:32px">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <p style="font-family:var(--serif);font-size:1.75rem;font-style:italic;line-height:1.4;color:#fff">This isn't a generator.</p>
+                    <p style="font-size:1.15rem;line-height:1.7;margin-top:24px;opacity:0.85">It's the system that applies your brand's intelligence to all your tools.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer"><span class="logo">BrandStudios<span>.AI</span></span><span>5</span></div>
+    </section>
+
+    <!-- Slide 6: What BrandStudios.AI Does -->
+    <section class="slide">
+        <div class="slide-inner">
+            <h2 class="headline" style="margin-bottom:64px"><em>What BrandStudios.AI Does</em></h2>
+            
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px">
+                <!-- Column 1: Learn -->
+                <div class="card-white" style="padding:40px">
+                    <div style="width:48px;height:48px;background:rgba(232,93,45,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:24px">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e85d2d" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                    </div>
+                    <h3 style="font-weight:700;font-size:1.1rem;color:var(--navy);margin-bottom:20px">Learn</h3>
+                    <p class="body-md" style="margin-bottom:16px">Builds your <strong>Brand DNA</strong> from your best approved work</p>
+                    <p class="body-md">Understands how every product and asset actually shows up — in stills, video, and across channels</p>
+                </div>
+                
+                <!-- Column 2: Apply -->
+                <div class="card-white" style="padding:40px">
+                    <div style="width:48px;height:48px;background:rgba(16,185,129,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:24px">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                    </div>
+                    <h3 style="font-weight:700;font-size:1.1rem;color:var(--navy);margin-bottom:20px">Apply</h3>
+                    <p class="body-md" style="margin-bottom:16px">Scores every asset for quality (<strong>Brand Grade</strong>) and alignment (<strong>Brand Drift</strong>)</p>
+                    <p class="body-md">Routes work intelligently through <strong>Quality Gates</strong></p>
+                </div>
+                
+                <!-- Column 3: Evolve -->
+                <div class="card-white" style="padding:40px">
+                    <div style="width:48px;height:48px;background:rgba(91,143,217,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:24px">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5b8fd9" stroke-width="2"><path d="M21 12a9 9 0 11-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+                    </div>
+                    <h3 style="font-weight:700;font-size:1.1rem;color:var(--navy);margin-bottom:20px">Evolve</h3>
+                    <p class="body-md" style="margin-bottom:16px">Feeds patterns back into briefs, generation, and approvals through the <strong>Insight Loop</strong></p>
+                    <p class="body-md">Learns from every human decision</p>
+                </div>
+            </div>
+            
+            <div style="text-align:center;margin-top:48px;padding:32px;background:var(--warm-white);border-radius:16px;box-shadow:0 2px 24px rgba(0,0,0,0.03)">
+                <p class="body-lg" style="font-weight:600;color:var(--navy)">Keeps your brand's accumulated experience consistent at scale</p>
+            </div>
+        </div>
+        <div class="slide-footer"><span class="logo">BrandStudios<span>.AI</span></span><span>6</span></div>
+    </section>
+
+    <!-- Slide 7: Platform -->
+    <section class="slide">
+        <div class="slide-inner">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center">
+                <div>
+                    <h2 class="headline">BrandStudios.AI<br><em>Platform</em></h2>
+                    <p class="body-md" style="margin-top:32px;color:var(--text-light)">Brand DNA → Creative Studio → Quality Gates → Human Intelligence → Insight Loop → updates Brand DNA</p>
+                    <p class="subhead" style="margin-top:48px;font-weight:500;color:var(--navy)">One system.<br>One memory.<br>One evolving intelligence.</p>
+                    <div class="card-dark" style="padding:32px 40px;margin-top:40px">
+                        <p style="font-family:var(--serif);font-size:1.25rem;font-style:italic;line-height:1.5">Automation runs first.<br>Human intelligence governs the system.</p>
+                    </div>
+                </div>
+                
+                <!-- Visual Diagram matching PDF -->
+                <div style="position:relative;height:480px">
+                    <!-- Dashed circular path -->
+                    <svg style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:400px;height:480px" viewBox="0 0 400 480">
+                        <!-- Main circular dashed path -->
+                        <ellipse cx="200" cy="240" rx="160" ry="200" fill="none" stroke="#ddd" stroke-width="2" stroke-dasharray="8,8"/>
+                        <!-- Arrow indicators on path -->
+                        <polygon points="200,30 195,45 205,45" fill="#999"/>
+                        <polygon points="370,240 355,235 355,245" fill="#999"/>
+                        <polygon points="200,450 205,435 195,435" fill="#999"/>
+                        <polygon points="30,240 45,245 45,235" fill="#999"/>
+                    </svg>
+                    
+                    <!-- Center - Brand DNA -->
+                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:140px;height:140px;background:linear-gradient(135deg,#e85d2d,#f59e0b);border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:10;box-shadow:0 8px 32px rgba(232,93,45,0.35)">
+                        <div style="text-align:center;color:#fff">
+                            <p style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;opacity:0.8">Core</p>
+                            <p style="font-weight:700;font-size:1rem;margin-top:2px">Brand DNA</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Brand Memory - Top -->
+                    <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);background:#5b8fd9;color:#fff;padding:20px 32px;border-radius:14px;text-align:center;min-width:160px;box-shadow:0 4px 20px rgba(91,143,217,0.35)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin:0 auto 8px"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        <p style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em">Brand Memory</p>
+                    </div>
+                    
+                    <!-- Creative Studio - Right -->
+                    <div style="position:absolute;top:35%;right:0;background:#6db86d;color:#fff;padding:20px 32px;border-radius:14px;text-align:center;min-width:160px;box-shadow:0 4px 20px rgba(109,184,109,0.35)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin:0 auto 8px"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                        <p style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em">Creative Studio</p>
+                    </div>
+                    
+                    <!-- Insight Loop - Left -->
+                    <div style="position:absolute;top:35%;left:0;background:#e07a5f;color:#fff;padding:20px 32px;border-radius:14px;text-align:center;min-width:160px;box-shadow:0 4px 20px rgba(224,122,95,0.35)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin:0 auto 8px"><path d="M21 12a9 9 0 11-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+                        <p style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em">Insight Loop</p>
+                    </div>
+                    
+                    <!-- Human Intelligence - Bottom Left -->
+                    <div style="position:absolute;bottom:0;left:15%;background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:20px 32px;border-radius:14px;text-align:center;min-width:160px;box-shadow:0 4px 20px rgba(16,185,129,0.35)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin:0 auto 8px"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                        <p style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em">Human Intelligence</p>
+                    </div>
+                    
+                    <!-- Quality Gates - Bottom Right -->
+                    <div style="position:absolute;bottom:0;right:15%;background:#777;color:#fff;padding:20px 32px;border-radius:14px;text-align:center;min-width:160px;box-shadow:0 4px 20px rgba(0,0,0,0.2)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin:0 auto 8px"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                        <p style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em">Quality Gates</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer"><span class="logo">BrandStudios<span>.AI</span></span><span>7</span></div>
+    </section>
+
+    <!-- Slide 8: How It Works - Pillars -->
+    <section class="slide">
+        <div class="slide-inner">
+            <div class="center">
+                <h2 class="headline">How BrandStudios.AI Works<br><em>One Living Intelligence</em></h2>
+            </div>
+            <div class="pillars">
+                <div class="pillar">
+                    <div class="pillar-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5b8fd9" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                    <h3 class="pillar-title">Brand Memory</h3>
+                    <p class="pillar-text">Your brand's visual, verbal, and narrative truth — consistently remembered by the system.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6db86d" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+                    <h3 class="pillar-title">Creative Studio</h3>
+                    <p class="pillar-text">Applies that truth across formats. Every asset scored for Brand Grade and Brand Drift.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+                    <h3 class="pillar-title">Quality Gate</h3>
+                    <p class="pillar-text">Aligned work moves forward automatically. Nuanced work routes to humans.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+                    <h3 class="pillar-title">Human Intelligence</h3>
+                    <p class="pillar-text">Approval, edits, and refinement become learning signals — sharpening the system.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e07a5f" stroke-width="2"><path d="M21 12a9 9 0 11-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></div>
+                    <h3 class="pillar-title">Insight Loop</h3>
+                    <p class="pillar-text">Patterns strengthen. Scoring improves. Brand DNA evolves responsibly.</p>
+                </div>
+            </div>
+            <p class="statement center" style="border:none;padding:0;margin-top:64px">The brand stays true because people stay in the loop — and the system learns from every decision they make.</p>
+        </div>
+        <div class="slide-footer"><span class="logo">BrandStudios<span>.AI</span></span><span>8</span></div>
+    </section>
+
+    <!-- Slide 9: How It Works Detail -->
+    <section class="slide">
+        <div class="slide-inner">
+            <h2 class="headline" style="margin-bottom:12px">How It Works</h2>
+            <p class="body-lg" style="color:var(--text-light);margin-bottom:48px">Tools create content. The platform ensures every tool creates Brand Grade assets.</p>
+            
+            <div style="display:grid;grid-template-columns:280px 1fr 280px;gap:28px">
+                <!-- Brand DNA Card -->
+                <div class="card-dark" style="padding:36px">
+                    <p style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.12em;opacity:0.5;margin-bottom:8px">Foundation</p>
+                    <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:20px">Brand DNA</h3>
+                    <p style="font-size:3.5rem;font-weight:600;background:linear-gradient(135deg,#e85d2d,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1">1,200+</p>
+                    <p style="font-size:0.85rem;opacity:0.5;margin-bottom:28px">attributes captured</p>
+                    <p style="font-size:0.95rem;opacity:0.8;line-height:1.65">Your approved creative, decoded. The system learns what Brand Grade looks like for your brand.</p>
+                </div>
+                
+                <!-- Flow Cards -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+                    <div class="card-white" style="padding:28px;border-left:4px solid var(--orange)">
+                        <span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:var(--orange);color:#fff;border-radius:10px;font-size:0.8rem;font-weight:700;margin-bottom:16px">01</span>
+                        <h4 style="font-weight:700;font-size:1.05rem;margin-bottom:10px">Creative Requests</h4>
+                        <p style="font-size:0.9rem;color:var(--text-light);line-height:1.6;margin-bottom:16px">Briefs flow in. Brand DNA attaches automatically to every request.</p>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap">
+                            <span style="font-size:0.75rem;padding:6px 14px;background:#f0f0ee;border-radius:100px">Social</span>
+                            <span style="font-size:0.75rem;padding:6px 14px;background:#f0f0ee;border-radius:100px">Email</span>
+                            <span style="font-size:0.75rem;padding:6px 14px;background:#f0f0ee;border-radius:100px">Ads</span>
+                            <span style="font-size:0.75rem;padding:6px 14px;background:#f0f0ee;border-radius:100px">Web</span>
+                        </div>
+                    </div>
+                    <div class="card-white" style="padding:28px;border-left:4px solid var(--orange)">
+                        <span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:var(--orange);color:#fff;border-radius:10px;font-size:0.8rem;font-weight:700;margin-bottom:16px">02</span>
+                        <h4 style="font-weight:700;font-size:1.05rem;margin-bottom:10px">Creative Studio</h4>
+                        <p style="font-size:0.9rem;color:var(--text-light);line-height:1.6;margin-bottom:16px">AI generates variants. Each asset scored against Brand DNA.</p>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap">
+                            <span style="font-size:0.75rem;padding:6px 14px;background:#f0f0ee;border-radius:100px">Brand Grade</span>
+                            <span style="font-size:0.75rem;padding:6px 14px;background:#f0f0ee;border-radius:100px">Brand Drift</span>
+                        </div>
+                    </div>
+                    <div class="card-white" style="padding:28px;border-left:4px solid var(--orange)">
+                        <span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:var(--orange);color:#fff;border-radius:10px;font-size:0.8rem;font-weight:700;margin-bottom:16px">03</span>
+                        <h4 style="font-weight:700;font-size:1.05rem;margin-bottom:10px">Smart Routing</h4>
+                        <p style="font-size:0.9rem;color:var(--text-light);line-height:1.6;margin-bottom:16px">Automated quality gates based on your thresholds.</p>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap">
+                            <span style="font-size:0.75rem;padding:6px 14px;background:rgba(16,185,129,0.15);color:#059669;border-radius:100px">Auto-Approved</span>
+                            <span style="font-size:0.75rem;padding:6px 14px;background:#f0f0ee;border-radius:100px">Resubmit → Review</span>
+                        </div>
+                    </div>
+                    <div class="card-white" style="padding:28px;border-left:4px solid #10b981">
+                        <span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:#10b981;color:#fff;border-radius:10px;font-size:0.8rem;font-weight:700;margin-bottom:16px">04</span>
+                        <h4 style="font-weight:700;font-size:1.05rem;margin-bottom:10px">Human Intelligence</h4>
+                        <p style="font-size:0.9rem;color:var(--text-light);line-height:1.6;margin-bottom:16px">Creative experts review flagged work. Every decision becomes a signal.</p>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap">
+                            <span style="font-size:0.75rem;padding:6px 14px;background:rgba(16,185,129,0.15);color:#059669;border-radius:100px">Approve</span>
+                            <span style="font-size:0.75rem;padding:6px 14px;background:#f0f0ee;border-radius:100px">Edit</span>
+                            <span style="font-size:0.75rem;padding:6px 14px;background:#f0f0ee;border-radius:100px">Reject</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Insight Loop Card -->
+                <div class="card-dark" style="padding:36px">
+                    <p style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.12em;color:#e07a5f;margin-bottom:16px">Continuous</p>
+                    <h3 style="font-size:1.5rem;font-weight:700;margin-bottom:32px">Insight Loop</h3>
+                    <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:20px">
+                        <span style="width:28px;height:28px;background:linear-gradient(135deg,#10b981,#059669);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" style="width:14px;height:14px"><path d="M20 6L9 17l-5-5"/></svg></span>
+                        <span style="font-size:0.95rem;line-height:1.5">Human decisions feed back into Brand DNA</span>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:20px">
+                        <span style="width:28px;height:28px;background:linear-gradient(135deg,#10b981,#059669);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" style="width:14px;height:14px"><path d="M20 6L9 17l-5-5"/></svg></span>
+                        <span style="font-size:0.95rem;line-height:1.5">Brand Grade scoring improves over time</span>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:20px">
+                        <span style="width:28px;height:28px;background:linear-gradient(135deg,#10b981,#059669);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" style="width:14px;height:14px"><path d="M20 6L9 17l-5-5"/></svg></span>
+                        <span style="font-size:0.95rem;line-height:1.5">Auto-approval rates climb</span>
+                    </div>
+                    <div style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.1)">
+                        <div style="display:flex;align-items:flex-start;gap:14px">
+                            <span style="width:28px;height:28px;background:linear-gradient(135deg,#10b981,#059669);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" style="width:14px;height:14px"><path d="M20 6L9 17l-5-5"/></svg></span>
+                            <span style="font-size:0.95rem;line-height:1.5">Updates Brand DNA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer"><span class="logo">BrandStudios<span>.AI</span></span><span>9</span></div>
+    </section>
+
+    <!-- Slide 10: Using Assets Safely -->
+    <section class="slide">
+        <div class="slide-inner">
+            <h2 class="headline">Using Your Existing Assets<br><em>Safely With AI</em></h2>
+            <p class="body-lg" style="margin-top:24px;color:var(--text-light)">You can use any asset you have rights to — within the terms you negotiated.</p>
+            
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:56px">
+                <!-- Left: How it works -->
+                <div>
+                    <h3 style="font-weight:700;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);margin-bottom:32px">How Rights Are Protected</h3>
+                    
+                    <div style="display:grid;gap:24px">
+                        <div class="card-white" style="padding:28px 32px;display:flex;gap:20px;align-items:flex-start">
+                            <div style="width:36px;height:36px;background:rgba(16,185,129,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                            </div>
+                            <p class="body-md">AI doesn't expand restricted usage or alter photographer or talent agreements</p>
+                        </div>
+                        
+                        <div class="card-white" style="padding:28px 32px;display:flex;gap:20px;align-items:flex-start">
+                            <div style="width:36px;height:36px;background:rgba(16,185,129,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                            </div>
+                            <p class="body-md">BrandStudios.AI follows each asset across your workflow and enforces its rights wherever it appears</p>
+                        </div>
+                        
+                        <div class="card-white" style="padding:28px 32px;display:flex;gap:20px;align-items:flex-start">
+                            <div style="width:36px;height:36px;background:rgba(16,185,129,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                            </div>
+                            <p class="body-md">The Insight Loop strengthens enforcement by learning how assets are used, flagged, and approved</p>
+                        </div>
+                        
+                        <div class="card-white" style="padding:28px 32px;display:flex;gap:20px;align-items:flex-start">
+                            <div style="width:36px;height:36px;background:rgba(16,185,129,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                            </div>
+                            <p class="body-md">AI-generated outputs are treated as new assets with clean commercial rights</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right: Recommendations -->
+                <div class="card-dark" style="padding:40px;align-self:start">
+                    <h3 style="font-weight:700;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);margin-bottom:24px">For Future Shoots</h3>
+                    <p style="font-size:1.1rem;font-weight:500;margin-bottom:32px;line-height:1.5">We recommend negotiating AI-friendly terms:</p>
+                    
+                    <div style="display:grid;gap:20px">
+                        <div style="display:flex;align-items:center;gap:16px">
+                            <span style="width:8px;height:8px;background:var(--orange);border-radius:50%"></span>
+                            <span style="font-size:1rem">Derivative and synthetic derivative rights</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:16px">
+                            <span style="width:8px;height:8px;background:var(--orange);border-radius:50%"></span>
+                            <span style="font-size:1rem">Digital adaptation rights</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:16px">
+                            <span style="width:8px;height:8px;background:var(--orange);border-radius:50%"></span>
+                            <span style="font-size:1rem">Model-assisted usage rights</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:16px">
+                            <span style="width:8px;height:8px;background:var(--orange);border-radius:50%"></span>
+                            <span style="font-size:1rem">Perpetual usage across emerging formats</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer"><span class="logo">BrandStudios<span>.AI</span></span><span>10</span></div>
+    </section>
+
+    <!-- Slide 11: Tool Agnostic -->
+    <section class="slide">
+        <div class="slide-inner">
+            <div class="split-wide">
+                <div>
+                    <h2 class="headline">Tool Agnostic<br><em>Orchestration Layer</em></h2>
+                    <p class="body-lg" style="margin-top:32px;font-weight:600">AI tools generate. BrandStudios.AI orchestrates.</p>
+                    <p class="body-md" style="margin-top:24px;line-height:1.8">BrandStudios.AI sits above your creative stack — image models, video engines, LLMs, design tools, and automation platforms. It applies Brand DNA to everything they produce, applying one memory across your entire stack.</p>
+                    <p class="body-lg" style="margin-top:32px;font-weight:600">Your tools create. BrandStudios.AI orchestrates.</p>
+                    <p class="body-md" style="margin-top:24px">And the results show it:</p>
+                    <ul class="feature-list" style="margin-top:16px">
+                        <li><strong style="color:var(--orange)">3× more approved content shipped</strong></li>
+                        <li><strong style="color:var(--orange)">3–4 days faster campaign launches</strong></li>
+                        <li><strong style="color:var(--orange)">40% lower production costs</strong></li>
+                        <li><strong style="color:var(--orange)">AI-driven discovery + SEO gains</strong></li>
+                    </ul>
+                    <p class="body-md" style="margin-top:32px">Built by marketers.<br>Informed by experience.<br>Performance through intelligence.</p>
+                </div>
+                <div class="tools-container">
+                    <div class="tools-header">
+                        <h3>BrandStudios.AI</h3>
+                        <p>Orchestration Layer</p>
+                    </div>
+                    <div class="tools-grid">
+                        <div class="tool-box tool-orange"><h4>Image Models</h4><p>Midjourney<br>Adobe Firefly<br>DALL-E</p></div>
+                        <div class="tool-box tool-sand"><h4>Video & Audio Models</h4><p>Runway<br>Descript<br>ElevenLabs</p></div>
+                        <div class="tool-box tool-sage"><h4>Design Tools</h4><p>Figma<br>Canva</p></div>
+                        <div class="tool-box tool-sky"><h4>LLMs</h4><p>Chat GPT<br>Claude<br>Gemini</p></div>
+                        <div class="tool-box tool-lavender"><h4>Automation Tools</h4><p>Copy.AI<br>Jasper</p></div>
+                        <div class="tool-box tool-neutral"><h4>Channels</h4><p>Social • Email<br>Ads • Web</p></div>
+                    </div>
+                </div>
+            </div>
+            <p class="statement center" style="border:none;padding:0;margin-top:48px">Enterprise-ready by default — secure, native, and built to fit your stack.</p>
+        </div>
+        <div class="slide-footer"><span class="logo">BrandStudios<span>.AI</span></span><span>11</span></div>
+    </section>
+
+    <!-- Slide 12: The Proof -->
+    <section class="slide">
+        <div class="slide-inner">
+            <div class="split">
+                <div>
+                    <h2 class="headline"><em>The Proof</em></h2>
+                    <p class="body-lg" style="margin-top:32px;font-weight:500">Fidelity is the measure of whether your brand can scale without losing itself.</p>
+                    <p class="body-md" style="margin-top:24px">Every asset receives a BrandStudios.AI Fidelity Index™ score based on 1,200+ vectors: similarity, color alignment, visual consistency, composition balance, and quality checks.</p>
+                    <div style="margin-top:40px">
+                        <p class="body-lg"><strong style="color:var(--orange)">Brand Grade</strong> = creative excellence</p>
+                        <p class="body-lg" style="margin-top:12px"><strong style="color:var(--orange)">Brand Drift</strong> = alignment to Brand DNA</p>
+                        <p class="body-lg" style="margin-top:12px"><strong style="color:var(--orange)">Brand Fidelity</strong> = both, governed by human intelligence</p>
+                    </div>
+                </div>
+                <div class="fidelity-card">
+                    <div class="fidelity-header">
+                        <div>
+                            <p class="fidelity-title">BrandStudios.AI™ Brand Fidelity Index</p>
+                            <p class="fidelity-subtitle">Asset Evaluation Summary</p>
+                        </div>
+                        <div style="text-align:right">
+                            <p class="fidelity-score">92.14%</p>
+                        </div>
+                    </div>
+                    <div class="fidelity-row"><span>Brand Similarity</span><div class="fidelity-bar"><div class="fidelity-fill" style="width:100%"></div></div><span class="status status-pass">✓ Perfect</span></div>
+                    <div class="fidelity-row"><span>Color Alignment</span><div class="fidelity-bar"><div class="fidelity-fill" style="width:97%"></div></div><span class="status status-pass">✓ Excellent</span></div>
+                    <div class="fidelity-row"><span>Visual Consistency</span><div class="fidelity-bar"><div class="fidelity-fill" style="width:100%"></div></div><span class="status status-pass">✓ Perfect</span></div>
+                    <div class="fidelity-row"><span>Composition</span><div class="fidelity-bar"><div class="fidelity-fill moderate" style="width:50%"></div></div><span class="status status-warn">⚠ Moderate</span></div>
+                    <div class="fidelity-row" style="border:none"><span>Quality Checks</span><div class="fidelity-bar"><div class="fidelity-fill" style="width:100%"></div></div><span class="status status-pass">✓ Clean</span></div>
+                    <div class="fidelity-result"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="width:22px;height:22px;flex-shrink:0"><path d="M20 6L9 17l-5-5"/></svg>PASS — Auto-approved at 92.14%</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer"><span class="logo">BrandStudios<span>.AI</span></span><span>12</span></div>
+    </section>
+
+    <!-- Slide 13: Where Others Automate -->
+    <section class="slide">
+        <div class="slide-inner narrow center">
+            <h2 class="headline">Where Others Automate,<br><em>We Learn</em></h2>
+            <p class="body-xl" style="margin-top:48px">Most tools chase speed or volume.</p>
+            <p class="body-xl" style="margin-top:24px">BrandStudios.AI operates above them where creativity, brand intelligence, and human capability converge.</p>
+            <div class="cta-card">
+                <p>We don't automate the brand.<br>We orchestrate the work around it.</p>
+            </div>
+            <p class="statement" style="text-align:center;border:none;padding:0;margin-top:48px">Automation without learning creates noise. We create coherence.</p>
+        </div>
+        <div class="slide-footer"><span class="logo">BrandStudios<span>.AI</span></span><span>13</span></div>
+    </section>
+
+    <!-- Slide 14: CTA -->
+    <section class="slide">
+        <div class="slide-inner center">
+            <p class="body-lg" style="color:var(--text-light)">If your brand is ready to scale, your system should be too.</p>
+            <h2 class="display" style="margin-top:32px">From Human to Human.<br><em>Let's Do This.</em></h2>
+            <div style="margin-top:80px">
+                <div class="logo" style="font-size:2.5rem">BrandStudios<span>.AI</span></div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
